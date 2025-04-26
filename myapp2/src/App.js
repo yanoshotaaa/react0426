@@ -4,6 +4,7 @@ import './App.css';
 function App() {
   const [todos, setTodos] = useState([]);
   const [input, setInput] = useState('');
+  const [sortByDone, setSortByDone] = useState(false); // ★ 並び順切り替え用のState
 
   // 画面読み込み時に localStorage からデータを読み込む
   useEffect(() => {
@@ -38,9 +39,15 @@ function App() {
     setTodos(todos.filter(todo => todo.id !== id));
   };
 
+  // 並び順を制御する
+  const sortedTodos = sortByDone
+    ? [...todos].sort((a, b) => Number(a.done) - Number(b.done)) // 未完了を上、完了を下
+    : todos; // そのまま
+
   return (
     <div className="App" style={{ padding: '2rem', maxWidth: '500px', margin: 'auto' }}>
       <h1>📝 Todoアプリ</h1>
+
       <div style={{ marginBottom: '1rem' }}>
         <input
           value={input}
@@ -53,8 +60,16 @@ function App() {
         </button>
       </div>
 
+      {/* ★ 並び順切り替えボタン */}
+      <button
+        onClick={() => setSortByDone(!sortByDone)}
+        style={{ marginBottom: '1rem', padding: '0.5rem 1rem' }}
+      >
+        {sortByDone ? '元の順番に戻す' : '未完了を上に並び替え'}
+      </button>
+
       <ul style={{ listStyle: 'none', padding: 0 }}>
-        {todos.map(todo => (
+        {sortedTodos.map(todo => (
           <li key={todo.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '0.5rem' }}>
             <input
               type="checkbox"
