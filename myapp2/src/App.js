@@ -69,12 +69,7 @@ function App() {
             }}>
               {todo.text}
             </span>
-            <button
-              onClick={() => handleDelete(todo.id)}
-              style={{ background: 'red', color: 'white', border: 'none', borderRadius: '4px', padding: '0.3rem 0.6rem' }}
-            >
-              削除
-            </button>
+           
           </li>
         ))}
       </ul>
